@@ -1,6 +1,6 @@
 //Modle
 var gBoard;
-const EMPTY = ' ';
+const EMPTY = '';
 const FLAG = '🚩';
 const MINE = '💥';
 
@@ -81,14 +81,11 @@ function cellClicked(elCell, i, j) {
     timer()
     var currCell = gBoard[i][j]
     if (currCell.isMarked) return
-    if (currCell.isMine && !currCell.isMarked) {
+    currCell.isShown = true
+    if (currCell.isMine) {
         revealAllMine(gBoard)
         GameOver()
     }
-    console.log(elCell.dataset.negsCount)
-    console.log(elCell)
-        // elCell.innerText = elCell.dataset.negsCount
-    if (currCell.isMine) elCell.innerText = MINE
 }
 
 function cellMarked(elCell) {
@@ -133,9 +130,7 @@ function revealAllMine(board) {
             if (board[i][j].isMine) {
                 renderCell({ i: i, j: j }, MINE)
             }
-
         }
-
     }
 }
 
