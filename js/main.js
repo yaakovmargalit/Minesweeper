@@ -1,7 +1,7 @@
 //Modle
 var gBoard;
 
-var gEmptyCellsClicked;
+var gEmptyCellsOpen;
 var gFlagCount;
 const EMPTY = '';
 const FLAG = '🚩';
@@ -28,17 +28,15 @@ var gGame = {
 
 
 function initGame() {
-    gEmptyCellsClicked = 0;
+    gEmptyCellsOpen = 0;
     gFlagCount = 0;
     gBoard = buildBoard();
     setMinesNegsCount(gBoard)
     renderBoard(gBoard)
-    console.log(gBoard)
-
+    document.querySelector('.mes').innerText = '';
 };
 
 function buildBoard() {
-    console.log(gLevel)
     var board = createMat(gLevel.SIZE, gLevel.SIZE);
     for (var i = 0; i < board.length; i++) {
         for (var j = 0; j < board[0].length; j++) {
@@ -101,15 +99,13 @@ function cellClicked(elCell, i, j) {
     currCell.isShown = true
     if (currCell.isMine) {
         revealAllMine(gBoard)
-        console.log('lose')
+        GameOver('Loser');
     } else {
         if (currCell.minesAroundCount) openCell(elCell);
         else {
             openCell(elCell);
             expandShown(gBoard, elCell, i, j)
         }
-        gEmptyCellsClicked++
-        console.log(gEmptyCellsClicked)
         checkGameOver()
     }
 }
@@ -122,11 +118,10 @@ function cellMarked(elCell) {
     elCell.innerText = cellModle.isMarked ? FLAG : ' ';
     gFlagCount++
     checkGameOver()
-    console.log(gFlagCount)
 }
 
 function checkGameOver() {
-    if (gEmptyCellsClicked === gLevel.SIZE ** 2 - gLevel.MINES && gFlagCount === gLevel.MINES) console.log('victory')
+    if (gEmptyCellsOpen === gLevel.SIZE ** 2 - gLevel.MINES && gFlagCount === gLevel.MINES) GameOver('Winer');
 }
 
 function expandShown(board, elCell, cellI, cellJ) {
@@ -135,21 +130,16 @@ function expandShown(board, elCell, cellI, cellJ) {
         for (var j = cellJ - 1; j <= cellJ + 1; j++) {
             if (j < 0 || j >= board[i].length) continue;
             if (i === cellI && j === cellJ) continue;
+            var el = document.querySelector('#' + getIdName({ i: i, j: j }));
+            if (!board[i][j].isShown) openCell(el);
             board[i][j].isShown = true
-            console.log(getIdName({ i: i, j: j }))
-            var el = document.querySelector('#' + getIdName({ i: i, j: j }))
-            console.log(el)
-            el.classList.add('open')
-            if (el.dataset.negsCount !== '0')
-                el.innerText = el.dataset.negsCount
-
-
         }
     }
 }
 
-function GameOver() {
+function GameOver(mes) {
     gGame.isOn = false;
+    document.querySelector('.mes').innerText = mes;
 }
 
 function timer() {
@@ -178,9 +168,8 @@ function revealAllMine(board) {
 }
 
 function openCell(currCell) {
-    console.log(currCell)
     currCell.classList.add('open')
-    if (currCell.dataset.negsCount !== '0')
-        currCell.innerText = currCell.dataset.negsCount
+    if (currCell.dataset.negsCount !== '0') currCell.innerText = currCell.dataset.negsCount
+    gEmptyCellsOpen++;
 }
 window.addEventListener("contextmenu", e => e.preventDefault());

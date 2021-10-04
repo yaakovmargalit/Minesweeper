@@ -10,14 +10,18 @@
 </head>
 
 <body onload="initGame() ">
-    <div class="timer">00:00:00</div>
-    <button onclick="switchLevel(4,2)">4</button>
-    <button onclick="switchLevel(8,12)">8</button>
-    <button onclick="switchLevel(12,30)">12</button>
-    <table border="1" cellpadding="10">
-        <tbody class="board">
-        </tbody>
-    </table>
+    <div class="main">
+        <h1>Mine Sweeper</h1>
+        <div class="timer">00:00:00</div>
+        <button onclick="switchLevel(4,2)">4</button>
+        <button onclick="switchLevel(8,12)">8</button>
+        <button onclick="switchLevel(12,30)">12</button>
+        <table border="1" cellpadding="10">
+            <tbody class="board">
+            </tbody>
+        </table>
+        <h2 class="mes"></h2>
+    </div>
 
     <script src="js/main.js"></script>
     <script src="js/util.js"></script>
