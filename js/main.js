@@ -65,7 +65,7 @@ function renderBoard(board) {
         for (var j = 0; j < board[0].length; j++) {
             var currCell = board[i][j];
 
-            var cellId = getClassName({ i: i, j: j })
+            var cellId = getIdName({ i: i, j: j })
 
             strHTML += `\t<td class="cell" id="${cellId}" oncontextmenu="cellMarked(this)" onclick="cellClicked(this,${i},${j})" data-negs-count=${currCell.minesAroundCount}>\n`;
             strHTML += EMPTY;
@@ -78,8 +78,13 @@ function renderBoard(board) {
 }
 
 function cellClicked(elCell, i, j) {
-    tiner()
+    timer()
     var currCell = gBoard[i][j]
+    if (currCell.isMarked) return
+    if (currCell.isMine && !currCell.isMarked) {
+        revealAllMine(gBoard)
+        GameOver()
+    }
     console.log(elCell.dataset.negsCount)
     console.log(elCell)
         // elCell.innerText = elCell.dataset.negsCount
@@ -87,8 +92,12 @@ function cellClicked(elCell, i, j) {
 }
 
 function cellMarked(elCell) {
-    tiner()
-    elCell.innerText = FLAG
+    timer()
+    var cellLoction = getCellCoord(elCell.id)
+    var cellModle = gBoard[cellLoction.i][cellLoction.j]
+    cellModle.isMarked = !cellModle.isMarked;
+    elCell.innerText = cellModle.isMarked ? FLAG : ' ';
+    console.log(cellModle)
 }
 
 function checkGameOver() {
@@ -103,10 +112,30 @@ function GameOver() {
     gGame.isOn = false;
 }
 
-function tiner() {
+function timer() {
     if (!gGame.isOn) {
         gGame.isOn = true;
         startTimer(Date.now());
+    }
+}
+
+function getCellCoord(strCellId) {
+    var coord = {};
+    var parts = strCellId.split('-'); // [cell,'2','7']
+    coord.i = +parts[1] // 2
+    coord.j = +parts[2]; // 7
+    return coord; // {i:2 , j:7}
+}
+
+function revealAllMine(board) {
+    for (var i = 0; i < board.length; i++) {
+        for (var j = 0; j < board[0].length; j++) {
+            if (board[i][j].isMine) {
+                renderCell({ i: i, j: j }, MINE)
+            }
+
+        }
+
     }
 }
 

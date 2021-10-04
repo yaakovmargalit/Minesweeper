@@ -22,7 +22,7 @@ function copyMat(mat) {
     return newMat;
 }
 
-function getClassName(location) {
+function getIdName(location) {
     var cellClass = 'cell-' + location.i + '-' + location.j;
     return cellClass;
 }
@@ -45,4 +45,10 @@ function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+}
+
+function renderCell(location, value) {
+    var cellSelector = '#' + getIdName(location)
+    var elCell = document.querySelector(cellSelector);
+    elCell.innerText = value;
 }
