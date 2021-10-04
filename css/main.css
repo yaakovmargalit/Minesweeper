@@ -3,3 +3,7 @@
     height: 40px;
     text-align: center;
 }
+
+.open {
+    background-color: rgb(190, 186, 186);
+}
