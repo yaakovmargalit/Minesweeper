@@ -3,6 +3,8 @@ var gBoard;
 
 var gEmptyCellsOpen;
 var gFlagCount;
+var firstClick = true
+var stste = document.querySelector('.state')
 const EMPTY = '';
 const FLAG = '🚩';
 const MINE = '💥';
@@ -28,8 +30,11 @@ var gGame = {
 
 
 function initGame() {
+    gGame.isOn = false
+    stste.innerText = '😊';
     gEmptyCellsOpen = 0;
     gFlagCount = 0;
+    firstClick = true
     gBoard = buildBoard();
     setMinesNegsCount(gBoard)
     renderBoard(gBoard)
@@ -60,6 +65,7 @@ function buildBoard() {
 function switchLevel(size, mines) {
     gLevel.SIZE = size;
     gLevel.MINES = mines;
+    gGame.isOn = false
     initGame()
 }
 
@@ -94,12 +100,14 @@ function renderBoard(board) {
 function cellClicked(elCell, i, j) {
     timer()
     var currCell = gBoard[i][j]
+    if (firstClick && currCell.isMine) elCell = MoveToEmptyCell(currCell, elCell);
+    firstClick = false
     if (currCell.isMarked) return
     if (currCell.isShown) return
     currCell.isShown = true
     if (currCell.isMine) {
         revealAllMine(gBoard)
-        GameOver('Loser');
+        GameOver('Loser', '😢');
     } else {
         if (currCell.minesAroundCount) openCell(elCell);
         else {
@@ -121,7 +129,7 @@ function cellMarked(elCell) {
 }
 
 function checkGameOver() {
-    if (gEmptyCellsOpen === gLevel.SIZE ** 2 - gLevel.MINES && gFlagCount === gLevel.MINES) GameOver('Winer');
+    if (gEmptyCellsOpen === gLevel.SIZE ** 2 - gLevel.MINES && gFlagCount === gLevel.MINES) GameOver('Winer', '😍');
 }
 
 function expandShown(board, elCell, cellI, cellJ) {
@@ -137,9 +145,10 @@ function expandShown(board, elCell, cellI, cellJ) {
     }
 }
 
-function GameOver(mes) {
+function GameOver(mes, state) {
     gGame.isOn = false;
     document.querySelector('.mes').innerText = mes;
+    stste.innerText = state;
 }
 
 function timer() {
@@ -171,5 +180,28 @@ function openCell(currCell) {
     currCell.classList.add('open')
     if (currCell.dataset.negsCount !== '0') currCell.innerText = currCell.dataset.negsCount
     gEmptyCellsOpen++;
+}
+
+function getEmptyCell(board) {
+    for (var i = 0; i < board.length; i++) {
+        for (var j = 0; j < board[0].length; j++) {
+            if (!board[i][j].isMine) {
+                return { i: i, j: j }
+            }
+        }
+    }
+}
+
+function MoveToEmptyCell(currCell, elCell) {
+    console.log(elCell)
+    firstClick = false;
+    var emptyCell = getEmptyCell(gBoard);
+    currCell.isMine = false
+    gBoard[emptyCell.i][emptyCell.j].isMine = true
+    setMinesNegsCount(gBoard)
+    elCell.dataset.negsCount = currCell.minesAroundCount;
+    elCell.classList.add('open')
+    renderBoard(gBoard)
+    return document.querySelector('#' + elCell.id)
 }
 window.addEventListener("contextmenu", e => e.preventDefault());

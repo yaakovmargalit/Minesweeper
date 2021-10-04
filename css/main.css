@@ -1,10 +1,12 @@
+body {
+    /* background-image: url("/img/background.jpg"); */
+    background-position: initial;
+    background-size: cover;
+}
+
 .cell {
     width: 20px;
     height: 20px;
-    text-align: center;
-}
-
-body {
     text-align: center;
 }
 
@@ -18,7 +20,6 @@ h1 {
 
 .main {
     height: 100hv;
-    width: 500px;
     display: block;
     text-align: center;
     margin: auto;
