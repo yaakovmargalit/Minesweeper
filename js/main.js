@@ -9,7 +9,7 @@ var gHaveHint = false;
 var firstClick = true
 var stste = document.querySelector('.state')
 var elLives = document.querySelector('.lives');
-var elLights = document.querySelector('.lights');
+var elLights = document.querySelector('.hints');
 const EMPTY = '';
 const FLAG = '🚩';
 const MINE = '💥';
@@ -47,9 +47,8 @@ function initGame() {
     gBoard = buildBoard();
     setMinesNegsCount(gBoard)
     renderBoard(gBoard)
-    renderLives(gLives)
     renderLights(gLights)
-    document.querySelector('.mes').innerText = '';
+    renderLives(gLives)
     document.querySelector('.timer').innerText = '00:00:00'
 
 };
@@ -131,12 +130,12 @@ function cellClicked(elCell, i, j) {
             exposeTheMine(i, j)
             gLives--;
             gFlagCount++
-            renderLives(gLives);
+            renderLive(gLives);
             checkGameOver()
             return
         }
         revealAllMine(gBoard)
-        GameOver('Loser', '😢');
+        GameOver('😢');
     } else {
         if (currCell.minesAroundCount) openCell(elCell);
         else {
@@ -160,7 +159,7 @@ function cellMarked(elCell) {
 }
 
 function checkGameOver() {
-    if (gEmptyCellsOpen === gLevel.SIZE ** 2 - gLevel.MINES && gFlagCount === gLevel.MINES) GameOver('Winer', '😍');
+    if (gEmptyCellsOpen === gLevel.SIZE ** 2 - gLevel.MINES && gFlagCount === gLevel.MINES) GameOver('😍');
 }
 
 function expandShown(board, cellI, cellJ) {
@@ -184,9 +183,8 @@ function expandShown(board, cellI, cellJ) {
 
 }
 
-function GameOver(mes, state) {
+function GameOver(state) {
     gGame.isOn = false;
-    document.querySelector('.mes').innerText = mes;
     stste.innerText = state;
 }
 
@@ -244,18 +242,29 @@ function MoveToEmptyCell(currCell, elCell) {
     return document.querySelector('#' + elCell.id)
 }
 
+function renderLive(gLives) {
+    var selector = gLives + 1;
+    document.querySelector('.l' + selector).innerHTML = '🖤';
+}
+
 function renderLives(gLives) {
-    var strLives = '';
-    for (let i = 0; i < gLives; i++) {
-        strLives += `<span>${LIVE}</span>`
+    var strHards = '';
+    for (var i = 1; i <= gLives; i++) {
+        strHards += `<span class="lives l${i}">💖</span>`;
     }
-    elLives.innerHTML = strLives;
+    document.querySelector('.hards').innerHTML = strHards;
+
+}
+
+function renderLight(gLights) {
+    var selector = gLights + 1;
+    document.querySelector('.h' + selector).src = 'img/off.png';
 }
 
 function renderLights(gLights) {
     var strLights = '';
-    for (let i = 0; i < gLights; i++) {
-        strLights += '<img src="img/LightBulb.png" onclick="getHint()">';
+    for (var i = 1; i <= gLights; i++) {
+        strLights += `<img class="lights h${i}" onclick="getHint()" src="img/LightBulb.png" />`;
     }
     elLights.innerHTML = strLights;
 }
@@ -267,7 +276,7 @@ function exposeTheMine(i, j) {
 
 function getHint() {
     gLights--
-    renderLights(gLights)
+    renderLight(gLights)
     gHaveHint = true
     document.querySelector('body').style.cursor = 'help'
 }

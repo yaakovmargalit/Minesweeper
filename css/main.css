@@ -24,8 +24,7 @@ h1 {
 }
 
 .main {
-    height: 100hv;
-    display: block;
+    display: flex;
     text-align: center;
     margin: auto;
 }
@@ -43,17 +42,18 @@ table {
     color: whitesmoke;
 }
 
-.lights img {
-    width: 30px;
+.lights {
+    width: 50px;
 }
 
 .controls {
-    position: absolute;
-    margin-left: 300px;
+    margin: 200px 40px;
 }
 
 .action {
-    margin: auto;
+    width: 50%;
+    margin: 0 20px 0 20px;
+    /* display: inline-block; */
 }
 
 .state {
@@ -88,4 +88,19 @@ table {
 .level-btn:active {
     position: relative;
     top: 1px;
+}
+
+.hards {
+    height: 40px;
+    margin: 10px auto;
+}
+
+.lives {
+    font-size: 30px;
+}
+
+.header-level {
+    font-size: 20px;
+    color: whitesmoke;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }

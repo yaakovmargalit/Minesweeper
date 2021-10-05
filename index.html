@@ -11,22 +11,23 @@
 
 <body onload="initGame() ">
     <div class="main">
-        <h1>Mine Sweeper</h1>
         <div class="controls">
-            <div class="lights"></div>
-            <h2 class="lives"></h2>
-            <button class="level-btn" onclick="switchLevel(4,2)">4</button>
-            <button class="level-btn" onclick="switchLevel(8,12)">8</button>
-            <button class="level-btn" onclick="switchLevel(12,30)">12</button>
+
+            <div class="hints"></div>
+            <div class="hards"></div>
+            <h3 class="header-level">Select a level</h3>
+            <button class="level-btn" onclick="switchLevel(4,2)">Easy</button>
+            <button class="level-btn" onclick="switchLevel(8,12)">Hard</button>
+            <button class="level-btn" onclick="switchLevel(12,30)">Pro</button>
         </div>
-        <div class="timer">00:00:00</div>
         <div class="action">
+            <h1>Mine Sweeper</h1>
+            <div class="timer">00:00:00</div>
             <button class="state" onclick="initGame()">😊</button>
             <table border="1" cellpadding="10">
                 <tbody class="board">
                 </tbody>
             </table>
-            <h2 class="mes"></h2>
         </div>
 
 
