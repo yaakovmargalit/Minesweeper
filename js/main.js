@@ -112,7 +112,6 @@ function renderBoard(board) {
 
 function cellClicked(elCell, i, j) {
     timer()
-    if (!gGame.isOn) return
     var currCell = gBoard[i][j]
     if (currCell.isMarked) return
     if (currCell.isShown) return
@@ -151,7 +150,6 @@ function cellClicked(elCell, i, j) {
 
 function cellMarked(elCell) {
     timer()
-    if (!gGame.isOn) return
     var cellLoction = getCellCoord(elCell.id)
     var cellModle = gBoard[cellLoction.i][cellLoction.j]
     cellModle.isMarked = !cellModle.isMarked;
@@ -194,7 +192,6 @@ function GameOver(mes, state) {
 
 function timer() {
     if (!gGame.isOn) {
-        initGame()
         gGame.isOn = true;
         startTimer(Date.now());
     }
