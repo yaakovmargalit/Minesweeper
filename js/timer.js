@@ -1,7 +1,6 @@
 // הפונקציה מקבלת Date.now() 
 function startTimer(rt) {
     if (!gGame.isOn) {
-        document.querySelector('.timer').innerText = '00:00:00'
         return
     }
     realTime = Date.now() - rt;
