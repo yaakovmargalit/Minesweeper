@@ -1,3 +1,11 @@
+function timer() {
+    if (!gGame.isOn) {
+        gGame.isOn = true;
+        startTimer(Date.now());
+    }
+}
+
+
 // הפונקציה מקבלת Date.now() 
 function startTimer(rt) {
     if (!gGame.isOn) {

@@ -1,9 +1,17 @@
+* {
+    font-family: Cursive;
+    box-sizing: border-box;
+}
+
 body {
-    /* background-image: url("/img/background.jpg"); */
-    background-position: initial;
-    background-size: cover;
+    overflow: hidden;
     background: rgb(63, 94, 251);
     background: radial-gradient(circle, rgba(63, 94, 251, 1) 0%, rgba(252, 70, 107, 1) 100%);
+    /* background-image: url("/img/border.png");
+    background-position: bottom;
+    background-position: right;
+    background-size: 30%;
+    background-repeat: no-repeat; */
 }
 
 .cell {
@@ -48,6 +56,10 @@ table {
 
 .controls {
     margin: 200px 40px;
+    padding: 40px;
+    border-radius: 20px;
+    -webkit-box-shadow: 5px 5px 15px 5px #FF8080, -9px 5px 15px 5px #FFE488, -7px -5px 15px 5px #8CFF85, 12px -5px 15px 5px #80C7FF, 12px 10px 15px 7px #E488FF, -10px 10px 15px 7px #FF616B, -10px -7px 27px 1px #8E5CFF, 5px 5px 15px 5px rgba(0, 0, 0, 0);
+    box-shadow: 5px 5px 15px 5px #FF8080, -9px 5px 15px 5px #FFE488, -7px -5px 15px 5px #8CFF85, 12px -5px 15px 5px #80C7FF, 12px 10px 15px 7px #E488FF, -10px 10px 15px 7px #FF616B, -10px -7px 27px 1px #8E5CFF, 5px 5px 15px 5px rgba(0, 0, 0, 0);
 }
 
 .action {
@@ -100,7 +112,32 @@ table {
 }
 
 .header-level {
-    font-size: 20px;
     color: whitesmoke;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.safe {
+    background-color: yellowgreen;
+}
+
+.safe-btn,
+.boom-btn {
+    background: none;
+    padding: 7px;
+    margin-top: 15px;
+    border-radius: 20px;
+}
+
+.manuall-btn,
+.undo-btn {
+    width: 150px;
+    background: none;
+    border: orangered 3px inset;
+    border-radius: 20px;
+    padding: 10px;
+}
+
+.up {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

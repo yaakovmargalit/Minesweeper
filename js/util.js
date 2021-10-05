@@ -16,7 +16,13 @@ function copyMat(mat) {
     for (var i = 0; i < mat.length; i++) {
         newMat[i] = [];
         for (var j = 0; j < mat[0].length; j++) {
-            newMat[i][j] = mat[i][j];
+            console.log('ffsegsd')
+            newMat[i][j] = {
+                minesAroundCount: mat[i][j].minesAroundCount,
+                isShown: mat[i][j].isShown,
+                isMine: mat[i][j].isMine,
+                isMarked: mat[i][j].isMarked
+            }
         }
     }
     return newMat;
@@ -40,7 +46,6 @@ function countNeighbors(cellI, cellJ, mat) {
     return neighborsCount;
 }
 
-
 function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -51,4 +56,12 @@ function renderCell(location, value) {
     var cellSelector = '#' + getIdName(location)
     var elCell = document.querySelector(cellSelector);
     elCell.innerText = value;
+}
+
+function getCellCoord(strCellId) {
+    var coord = {};
+    var parts = strCellId.split('-'); // [cell,'2','7']
+    coord.i = +parts[1] // 2
+    coord.j = +parts[2]; // 7
+    return coord; // {i:2 , j:7}
 }

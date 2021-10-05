@@ -11,6 +11,7 @@
 
 <body onload="initGame() ">
     <div class="main">
+
         <div class="controls">
 
             <div class="hints"></div>
@@ -19,11 +20,19 @@
             <button class="level-btn" onclick="switchLevel(4,2)">Easy</button>
             <button class="level-btn" onclick="switchLevel(8,12)">Hard</button>
             <button class="level-btn" onclick="switchLevel(12,30)">Pro</button>
+
+            <div><button class="safe-btn" onclick="safeClick()">Safe click 📌📌📌</button></div>
+            <div><button class="boom-btn" onclick="boom()">7 BOOM!</button></div>
         </div>
         <div class="action">
             <h1>Mine Sweeper</h1>
             <div class="timer">00:00:00</div>
-            <button class="state" onclick="initGame()">😊</button>
+            <div class="up">
+                <button class="manuall-btn" onclick="CheckManually()">Manually Create”</button>
+                <button class="state" onclick="initGame()">😊</button>
+                <button class="undo-btn" onclick="undo()">UNDO</button>
+
+            </div>
             <table border="1" cellpadding="10">
                 <tbody class="board">
                 </tbody>
@@ -36,6 +45,7 @@
     <script src="js/main.js"></script>
     <script src="js/util.js"></script>
     <script src="js/timer.js"></script>
+    <script src="js/hint.js"></script>
 </body>
 
 </html>
