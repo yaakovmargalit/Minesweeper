@@ -332,6 +332,7 @@ function safeClick() {
 
 function CheckManually(elCell) {
     if (!gManually) {
+        initGame()
         document.querySelector('.manuall-btn').innerText = 'Select Cells';
         gManually = true;
         return
