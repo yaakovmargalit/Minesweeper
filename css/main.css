@@ -4,7 +4,6 @@
 }
 
 body {
-    overflow: hidden;
     background: rgb(63, 94, 251);
     background: radial-gradient(circle, rgba(63, 94, 251, 1) 0%, rgba(252, 70, 107, 1) 100%);
     padding: 20px;
@@ -53,7 +52,7 @@ table {
 }
 
 .controls {
-    margin: 100px 40px;
+    margin: 40px 40px;
     padding: 40px;
     border-radius: 20px;
     -webkit-box-shadow: 5px 5px 15px 5px #FF8080, -9px 5px 15px 5px #FFE488, -7px -5px 15px 5px #8CFF85, 12px -5px 15px 5px #80C7FF, 12px 10px 15px 7px #E488FF, -10px 10px 15px 7px #FF616B, -10px -7px 27px 1px #8E5CFF, 5px 5px 15px 5px rgba(0, 0, 0, 0);
@@ -61,7 +60,7 @@ table {
 }
 
 .action {
-    height: 100vh;
+    height: 50vh;
     width: 50%;
     margin: 0 20px 0 20px;
     /* display: inline-block; */

@@ -43,6 +43,10 @@ var gScore = {
     hard: 0,
     pro: 0
 }
+
+var currentSituation = {
+
+}
 if (localStorage.getItem('easyScore') === null) {
     createScore()
 }
@@ -68,6 +72,7 @@ function initGame() {
     updateScore()
     gStepsCount = 0;
     gSteps[gStepsCount] = copyMat(gBoard);
+    updateSituation()
     document.querySelector('.timer').innerText = '00:00:00'
     document.querySelector('.safe-btn').style.cursor = 'pointer';
     document.querySelector('.safe-btn').innerText = 'Safe click 📌📌📌'
@@ -75,7 +80,23 @@ function initGame() {
     document.querySelector('.manuall-btn').disabled = false
 
 
-};
+}
+
+function updateSituation() {
+    currentSituation.board = copyMat(gBoard);
+    currentSituation.lives = gLives;
+    currentSituation.lights = gLights;
+    currentSituation.safe = gSafe;
+}
+
+function saveSituation() {
+    gSteps.push({
+        board: copyMat(currentSituation.board),
+        lives: currentSituation.lives,
+        lights: currentSituation.lights,
+        safe: currentSituation.safe
+    })
+}
 if (!localStorage) createScore()
 
 function buildBoard() {
@@ -96,14 +117,12 @@ function buildBoard() {
             board[gMinesForManually[i].i][gMinesForManually[i].j].isMine = true
         }
     } else {
-        for (let i = 0; i < gLevel.MINES; i++) {
+        for (var i = 0; i < gLevel.MINES; i++) {
             board[getRandomInt(0, board.length)][getRandomInt(0, board.length)].isMine = true;
         }
         // board[0][0].isMine = true;
         // board[0][3].isMine = true;
     }
-
-
     return board
 }
 
@@ -132,13 +151,13 @@ function renderBoard(board) {
 
             var cellId = getIdName({ i: i, j: j })
             var cla = 'cell';
-            var nags = '';
+            var negs = '';
             if (currCell.isShown) {
                 cla = "cell open"
-                nags = currCell.minesAroundCount
+                negs = currCell.minesAroundCount
             }
             strHTML += `\t<td class="${cla}" id="${cellId}" oncontextmenu="cellMarked(this)" onclick="cellClicked(this,${i},${j})" data-negs-count=${currCell.minesAroundCount}>\n`;
-            strHTML += nags;
+            strHTML += negs;
             strHTML += '\t</td>\n';
         }
         strHTML += '</tr>\n';
@@ -278,8 +297,6 @@ function MoveToEmptyCell(currCell, elCell) {
     setMinesNegsCount(gBoard)
     gStepsCount++;
     gSteps[gStepsCount] = copyMat(gBoard)
-    elCell.dataset.negsCount = currCell.minesAroundCount;
-    elCell.classList.add('open')
     renderBoard(gBoard)
     return document.querySelector('#' + elCell.id)
 }
@@ -389,28 +406,28 @@ function boom() {
 }
 
 function createScore() {
-    localStorage.setItem("easyScore", '🤷‍♂️');
-    localStorage.setItem("hardScore", '🤷‍♂️');
-    localStorage.setItem("proScore", '🤷‍♂️');
+    localStorage.setItem("easyScore", '➖');
+    localStorage.setItem("hardScore", '➖');
+    localStorage.setItem("proScore", '➖');
 }
 
 function updateScore() {
     console.log(gGame.timePassed)
     switch (gLevel.SIZE) {
         case 4:
-            if (localStorage.easyScore === '🤷‍♂️' && gGame.timePassed || (gGame.timePassed && gGame.timePassed < localStorage.easyScore)) {
+            if (localStorage.easyScore === '➖' && gGame.timePassed || (gGame.timePassed && gGame.timePassed < localStorage.easyScore)) {
                 localStorage.easyScore = +gGame.timePassed
             }
             document.querySelector('#set-score').innerText = 'Best score: ' + localStorage.getItem("easyScore");
             break;
         case 8:
-            if (localStorage.hardScore === '🤷‍♂️' && gGame.timePassed || (gGame.timePassed && gGame.timePassed < localStorage.hardScore)) {
+            if (localStorage.hardScore === '➖' && gGame.timePassed || (gGame.timePassed && gGame.timePassed < localStorage.hardScore)) {
                 localStorage.hardScore = +gGame.timePassed
             }
             document.querySelector('#set-score').innerText = 'Best score: ' + localStorage.getItem("hardScore");
             break;
         case 12:
-            if (localStorage.proScore === '🤷‍♂️' && gGame.timePassed || (gGame.timePassed && gGame.timePassed < localStorage.proScore)) {
+            if (localStorage.proScore === '➖' && gGame.timePassed || (gGame.timePassed && gGame.timePassed < localStorage.proScore)) {
                 localStorage.proScore = +gGame.timePassed
             }
             document.querySelector('#set-score').innerHTML = 'Best score: ' + localStorage.getItem("proScore");

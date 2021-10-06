@@ -11,24 +11,15 @@
 
 <body onload="initGame() ">
     <div class="main">
-
         <div class="controls">
 
             <div class="hints"></div>
             <div class="hards"></div>
-            <h3 class="header-level">Select a level</h3>
-            <button class="level-btn" onclick="switchLevel(4,2)">Easy</button>
-            <button class="level-btn" onclick="switchLevel(8,12)">Hard</button>
-            <button class="level-btn" onclick="switchLevel(12,30)">Pro</button>
+
 
             <div><button class="safe-btn" onclick="safeClick()">Safe click 📌📌📌</button></div>
             <div><button class="boom-btn" onclick="boom()">7 BOOM!</button></div>
-            <div class="score-box">
 
-                <h3 id="set-score"></h3>
-
-
-            </div>
         </div>
         <div class="action">
             <h1>Mine Sweeper</h1>
@@ -43,6 +34,16 @@
                 </tbody>
             </table>
         </div>
+        <div class="levels">
+            <h3 class="header-level">Select a level</h3>
+            <button class="level-btn" onclick="switchLevel(4,2)">Easy</button>
+            <button class="level-btn" onclick="switchLevel(8,12)">Hard</button>
+            <button class="level-btn" onclick="switchLevel(12,30)">Pro</button>
+            <div class="score-box">
+                <h3 id="set-score"></h3>
+            </div>
+        </div>
+
 
 
     </div>
