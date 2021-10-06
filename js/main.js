@@ -1,7 +1,5 @@
 //Modle
 var gBoard;
-var gEmptyCellsOpen;
-var gFlagCount;
 var gLives;
 var gLights;
 var gSafe;
@@ -37,9 +35,17 @@ var gGame = {
     isOn: false,
     shownCount: 0,
     markedCount: 0,
-    secsPassed: 0
+    timePassed: 0
 }
 
+var gScore = {
+    easy: 0,
+    hard: 0,
+    pro: 0
+}
+if (localStorage.getItem('easyScore') === null) {
+    createScore()
+}
 
 function initGame() {
     gMinesForManually = [];
@@ -48,8 +54,9 @@ function initGame() {
     gManually = false
     gSafe = 3;
     stste.innerText = '😊';
-    gEmptyCellsOpen = 0;
-    gFlagCount = 0;
+    gGame.shownCount = 0;
+    gGame.markedCount = 0;
+    gGame.timePassed = 0;
     gLives = 3;
     gLights = 3;
     firstClick = true
@@ -58,6 +65,7 @@ function initGame() {
     renderBoard(gBoard)
     renderLights(gLights)
     renderLives(gLives)
+    updateScore()
     gStepsCount = 0;
     gSteps[gStepsCount] = copyMat(gBoard);
     document.querySelector('.timer').innerText = '00:00:00'
@@ -68,6 +76,7 @@ function initGame() {
 
 
 };
+if (!localStorage) createScore()
 
 function buildBoard() {
     var board = createMat(gLevel.SIZE, gLevel.SIZE);
@@ -166,13 +175,13 @@ function cellClicked(elCell, i, j) {
         if (gLives) {
             exposeTheMine(i, j)
             gLives--;
-            gFlagCount++
-            renderLive(gLives);
+            gGame.markedCount++
+                renderLive(gLives);
             checkGameOver()
             return
         }
         revealAllMine(gBoard)
-        GameOver('😢');
+        GameOver('😭');
     } else {
         if (currCell.minesAroundCount) {
             gStepsCount++;
@@ -194,8 +203,8 @@ function cellMarked(elCell) {
     var cellModle = gBoard[cellLoction.i][cellLoction.j]
     cellModle.isMarked = !cellModle.isMarked;
     elCell.innerText = cellModle.isMarked ? FLAG : ' ';
-    if (cellModle.isMarked) gFlagCount++
-        else gFlagCount--
+    if (cellModle.isMarked) gGame.markedCount++
+        else gGame.markedCount--
             checkGameOver()
 
     gStepsCount++;
@@ -203,7 +212,10 @@ function cellMarked(elCell) {
 }
 
 function checkGameOver() {
-    if (gEmptyCellsOpen === gLevel.SIZE ** 2 - gLevel.MINES && gFlagCount === gLevel.MINES) GameOver('😍');
+    if (gGame.shownCount === gLevel.SIZE ** 2 - gLevel.MINES && gGame.markedCount === gLevel.MINES) {
+        GameOver('😍');
+        updateScore()
+    }
 }
 
 function expandShown(board, cellI, cellJ) {
@@ -245,7 +257,7 @@ function revealAllMine(board) {
 function openCell(currCell) {
     currCell.classList.add('open')
     if (currCell.dataset.negsCount !== '0') currCell.innerText = currCell.dataset.negsCount
-    gEmptyCellsOpen++;
+    gGame.shownCount++;
 }
 
 function getEmptyCell(board) {
@@ -373,5 +385,42 @@ function boom() {
         }
 
     }
+}
+
+function createScore() {
+    localStorage.setItem("easyScore", '🤷‍♂️');
+    localStorage.setItem("hardScore", '🤷‍♂️');
+    localStorage.setItem("proScore", '🤷‍♂️');
+}
+
+function updateScore() {
+    console.log(gGame.timePassed)
+    switch (gLevel.SIZE) {
+        case 4:
+            if (localStorage.easyScore === '🤷‍♂️' && gGame.timePassed || (gGame.timePassed && gGame.timePassed < localStorage.easyScore)) {
+                localStorage.easyScore = +gGame.timePassed
+            }
+            document.querySelector('#set-score').innerText = 'Best score: ' + localStorage.getItem("easyScore");
+            break;
+        case 8:
+            if (localStorage.hardScore === '🤷‍♂️' && gGame.timePassed || (gGame.timePassed && gGame.timePassed < localStorage.hardScore)) {
+                localStorage.hardScore = +gGame.timePassed
+            }
+            document.querySelector('#set-score').innerText = 'Best score: ' + localStorage.getItem("hardScore");
+            break;
+        case 12:
+            if (localStorage.proScore === '🤷‍♂️' && gGame.timePassed || (gGame.timePassed && gGame.timePassed < localStorage.proScore)) {
+                localStorage.proScore = +gGame.timePassed
+            }
+            document.querySelector('#set-score').innerHTML = 'Best score: ' + localStorage.getItem("proScore");
+            break;
+        default:
+            localStorage.setItem("score", gGame.timePassed);
+            break;
+    }
+}
+
+function checkIsBest() {
+
 }
 window.addEventListener("contextmenu", e => e.preventDefault());

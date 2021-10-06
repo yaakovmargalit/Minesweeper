@@ -16,7 +16,6 @@ function copyMat(mat) {
     for (var i = 0; i < mat.length; i++) {
         newMat[i] = [];
         for (var j = 0; j < mat[0].length; j++) {
-            console.log('ffsegsd')
             newMat[i][j] = {
                 minesAroundCount: mat[i][j].minesAroundCount,
                 isShown: mat[i][j].isShown,

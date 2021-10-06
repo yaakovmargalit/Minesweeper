@@ -8,14 +8,13 @@ function timer() {
 
 // הפונקציה מקבלת Date.now() 
 function startTimer(rt) {
-    if (!gGame.isOn) {
-        return
-    }
+    if (!gGame.isOn) return;
     realTime = Date.now() - rt;
     document.querySelector('.timer').innerText = presentTime(realTime);
     setTimeout(function() {
         realTime = Date.now() - rt;
         document.querySelector('.timer').innerText = presentTime(realTime);
+        gGame.timePassed++;
         startTimer(rt);
     }, 1000);
 }

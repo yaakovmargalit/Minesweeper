@@ -7,11 +7,7 @@ body {
     overflow: hidden;
     background: rgb(63, 94, 251);
     background: radial-gradient(circle, rgba(63, 94, 251, 1) 0%, rgba(252, 70, 107, 1) 100%);
-    /* background-image: url("/img/border.png");
-    background-position: bottom;
-    background-position: right;
-    background-size: 30%;
-    background-repeat: no-repeat; */
+    padding: 20px;
 }
 
 .cell {
@@ -20,6 +16,8 @@ body {
     text-align: center;
     padding: 2px;
     font-size: 15px;
+    border: rgb(141, 109, 226) 2px;
+    border-style: inset;
 }
 
 h1 {
@@ -55,7 +53,7 @@ table {
 }
 
 .controls {
-    margin: 200px 40px;
+    margin: 100px 40px;
     padding: 40px;
     border-radius: 20px;
     -webkit-box-shadow: 5px 5px 15px 5px #FF8080, -9px 5px 15px 5px #FFE488, -7px -5px 15px 5px #8CFF85, 12px -5px 15px 5px #80C7FF, 12px 10px 15px 7px #E488FF, -10px 10px 15px 7px #FF616B, -10px -7px 27px 1px #8E5CFF, 5px 5px 15px 5px rgba(0, 0, 0, 0);
@@ -63,6 +61,7 @@ table {
 }
 
 .action {
+    height: 100vh;
     width: 50%;
     margin: 0 20px 0 20px;
     /* display: inline-block; */
@@ -75,7 +74,12 @@ table {
     border: none;
 }
 
+.state:hover {
+    opacity: 0.8;
+}
+
 .level-btn {
+    margin: 3px;
     box-shadow: inset 0px 1px 0px 0px #fbafe3;
     background: linear-gradient(to bottom, #ff5bb0 5%, #ef027d 100%);
     background-color: #ff5bb0;
@@ -134,10 +138,31 @@ table {
     border: orangered 3px inset;
     border-radius: 20px;
     padding: 10px;
+    background: #B0CFBF;
+    background: -webkit-linear-gradient(to right, #B0CFBF 0%, #00FF00 57%, #CF91A1 100%);
+    background: -moz-linear-gradient(to right, #B0CFBF 0%, #00FF00 57%, #CF91A1 100%);
+    background: linear-gradient(to right, #B0CFBF 0%, #00FF00 57%, #CF91A1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-box-shadow: 5px 5px 28px 5px rgba(255, 255, 255, 0.48);
+    box-shadow: 5px 5px 28px 5px rgba(255, 255, 255, 0.48);
 }
 
 .up {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.score-box {
+    border-radius: 20px;
+    border: tan 2px solid;
+    margin-top: 25px;
+    background: #CF9FB9;
+    background: -webkit-linear-gradient(to right, #CF9FB9 0%, #BAFFBF 50%, #C1CFB6 100%);
+    background: -moz-linear-gradient(to right, #CF9FB9 0%, #BAFFBF 50%, #C1CFB6 100%);
+    background: linear-gradient(to right, #CF9FB9 0%, #BAFFBF 50%, #C1CFB6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 20px;
 }
