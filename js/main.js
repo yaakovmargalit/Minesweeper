@@ -82,21 +82,21 @@ function initGame() {
 
 }
 
-function updateSituation() {
-    currentSituation.board = copyMat(gBoard);
-    currentSituation.lives = gLives;
-    currentSituation.lights = gLights;
-    currentSituation.safe = gSafe;
-}
+// function updateSituation() {
+//     currentSituation.board = copyMat(gBoard);
+//     currentSituation.lives = gLives;
+//     currentSituation.lights = gLights;
+//     currentSituation.safe = gSafe;
+// }
 
-function saveSituation() {
-    gSteps.push({
-        board: copyMat(currentSituation.board),
-        lives: currentSituation.lives,
-        lights: currentSituation.lights,
-        safe: currentSituation.safe
-    })
-}
+// function saveSituation() {
+//     gSteps.push({
+//         board = copyMat(currentSituation.board),
+//         lives = currentSituation.lives,
+//         lights = currentSituation.lights,
+//         safe = currentSituation.safe
+//     })
+// }
 if (!localStorage) createScore()
 
 function buildBoard() {
