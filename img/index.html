@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minesweeper</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body onload="initGame() ">
+    <div class="main">
+
+        <div class="controls">
+
+            <div class="hints"></div>
+            <div class="hards"></div>
+            <h3 class="header-level">Select a level</h3>
+            <button class="level-btn" onclick="switchLevel(4,2)">Easy</button>
+            <button class="level-btn" onclick="switchLevel(8,12)">Hard</button>
+            <button class="level-btn" onclick="switchLevel(12,30)">Pro</button>
+
+            <div><button class="safe-btn" onclick="safeClick()">Safe click 📌📌📌</button></div>
+            <div><button class="boom-btn" onclick="boom()">7 BOOM!</button></div>
+            <div class="score-box">
+
+                <h3 id="set-score"></h3>
+
+
+            </div>
+        </div>
+        <div class="action">
+            <h1>Mine Sweeper</h1>
+            <div class="timer">00:00:00</div>
+            <div class="up">
+                <button class="manuall-btn" onclick="CheckManually()">Manually Create”</button>
+                <button class="state" onclick="initGame()">😊</button>
+                <button class="undo-btn" onclick="undo()">UNDO</button>
+            </div>
+            <table cellpadding="10">
+                <tbody class="board">
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/util.js"></script>
+    <script src="js/timer.js"></script>
+    <script src="js/hint.js"></script>
+</body>
+
+</html>

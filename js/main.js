@@ -72,7 +72,7 @@ function initGame() {
     updateScore()
     gStepsCount = 0;
     gSteps[gStepsCount] = copyMat(gBoard);
-    updateSituation()
+    // updateSituation()
     document.querySelector('.timer').innerText = '00:00:00'
     document.querySelector('.safe-btn').style.cursor = 'pointer';
     document.querySelector('.safe-btn').innerText = 'Safe click 📌📌📌'
