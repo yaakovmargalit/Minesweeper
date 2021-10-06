@@ -1,6 +1,6 @@
 //Modle
 var gBoard;
-var gLives;
+var gLifes;
 var gLights;
 var gSafe;
 var gHaveHint = false;
@@ -50,6 +50,7 @@ var currentSituation = {
 if (localStorage.getItem('easyScore') === null) {
     createScore()
 }
+if (!localStorage) createScore()
 
 function initGame() {
     gMinesForManually = [];
@@ -61,14 +62,14 @@ function initGame() {
     gGame.shownCount = 0;
     gGame.markedCount = 0;
     gGame.timePassed = 0;
-    gLives = 3;
+    gLifes = 3;
     gLights = 3;
     firstClick = true
     gBoard = buildBoard();
     setMinesNegsCount(gBoard)
     renderBoard(gBoard)
     renderLights(gLights)
-    renderLives(gLives)
+    renderLifes(gLifes)
     updateScore()
     gStepsCount = 0;
     gSteps[gStepsCount] = copyMat(gBoard);
@@ -82,22 +83,7 @@ function initGame() {
 
 }
 
-// function updateSituation() {
-//     currentSituation.board = copyMat(gBoard);
-//     currentSituation.lives = gLives;
-//     currentSituation.lights = gLights;
-//     currentSituation.safe = gSafe;
-// }
 
-// function saveSituation() {
-//     gSteps.push({
-//         board = copyMat(currentSituation.board),
-//         lives = currentSituation.lives,
-//         lights = currentSituation.lights,
-//         safe = currentSituation.safe
-//     })
-// }
-if (!localStorage) createScore()
 
 function buildBoard() {
     var board = createMat(gLevel.SIZE, gLevel.SIZE);
@@ -111,7 +97,7 @@ function buildBoard() {
             }
         }
     }
-
+    //insertion mines manually/random
     if (gManually) {
         for (var i = 0; i < gMinesForManually.length; i++) {
             board[gMinesForManually[i].i][gMinesForManually[i].j].isMine = true
@@ -120,19 +106,13 @@ function buildBoard() {
         for (var i = 0; i < gLevel.MINES; i++) {
             board[getRandomInt(0, board.length)][getRandomInt(0, board.length)].isMine = true;
         }
-        // board[0][0].isMine = true;
-        // board[0][3].isMine = true;
     }
     return board
 }
 
-function switchLevel(size, mines) {
-    gLevel.SIZE = size;
-    gLevel.MINES = mines;
-    gGame.isOn = false
-    initGame()
-}
 
+
+//The amount of mines around each cell
 function setMinesNegsCount(board) {
     for (var i = 0; i < board.length; i++) {
         for (let j = 0; j < board[0].length; j++) {
@@ -141,7 +121,7 @@ function setMinesNegsCount(board) {
         }
     }
 }
-
+//Writing the game for the page
 function renderBoard(board) {
     var strHTML = '';
     for (var i = 0; i < board.length; i++) {
@@ -165,7 +145,7 @@ function renderBoard(board) {
     var elBoard = document.querySelector('.board');
     elBoard.innerHTML = strHTML;
 }
-
+//Clicking a cell in the game
 function cellClicked(elCell, i, j) {
     if (gManually) {
         if (!addMineManually(i, j, elCell)) return;
@@ -191,11 +171,11 @@ function cellClicked(elCell, i, j) {
     gStepsCount++;
     gSteps[gStepsCount] = copyMat(gBoard)
     if (currCell.isMine) {
-        if (gLives) {
+        if (gLifes) {
             exposeTheMine(i, j)
-            gLives--;
+            gLifes--;
             gGame.markedCount++
-                renderLive(gLives);
+                renderLife(gLifes);
             checkGameOver()
             return
         }
@@ -236,7 +216,7 @@ function checkGameOver() {
         updateScore()
     }
 }
-
+//Exposing the neighbors in a rocrosy as long as there is a cell without neighbors
 function expandShown(board, cellI, cellJ) {
     for (var i = cellI - 1; i <= cellI + 1; i++) {
         if (i < 0 || i >= board.length) continue;
@@ -262,7 +242,7 @@ function GameOver(state) {
     gGame.isOn = false;
     stste.innerText = state;
 }
-
+//Exposure of all mines in case of loss
 function revealAllMine(board) {
     for (var i = 0; i < board.length; i++) {
         for (var j = 0; j < board[0].length; j++) {
@@ -272,7 +252,7 @@ function revealAllMine(board) {
         }
     }
 }
-
+//Mark cell as open
 function openCell(currCell) {
     currCell.classList.add('open')
     if (currCell.dataset.negsCount !== '0') currCell.innerText = currCell.dataset.negsCount
@@ -288,7 +268,7 @@ function getEmptyCell(board) {
         }
     }
 }
-
+//The case of first pressing this mine moves it to another empty cell and updates the board
 function MoveToEmptyCell(currCell, elCell) {
     firstClick = false;
     var emptyCell = getEmptyCell(gBoard);
@@ -300,13 +280,13 @@ function MoveToEmptyCell(currCell, elCell) {
     renderBoard(gBoard)
     return document.querySelector('#' + elCell.id)
 }
-
-function renderLive(gLives) {
+//Pressing a mine kills one life
+function renderLife(gLives) {
     var selector = gLives + 1;
     document.querySelector('.l' + selector).innerHTML = '🖤';
 }
 
-function renderLives(gLives) {
+function renderLifes(gLives) {
     var strHards = '';
     for (var i = 1; i <= gLives; i++) {
         strHards += `<span class="lives l${i}">💖</span>`;
@@ -314,14 +294,14 @@ function renderLives(gLives) {
     document.querySelector('.hards').innerHTML = strHards;
 
 }
-
+//In case of pressing a mine but there is still life. It will show a different character
 function exposeTheMine(i, j) {
     gBoard[i][j].isShown = true
     gStepsCount++
     gSteps[gStepsCount] = copyMat(gBoard)
     renderCell({ i: i, j: j }, '🤦‍♂️')
 }
-
+//Displays for a second a single cell that is safe to step on
 function safeClick() {
     if (!gSafe) {
         document.querySelector('.safe-btn').style.cursor = 'not-allowed';
@@ -346,48 +326,13 @@ function safeClick() {
         document.querySelector('#' + getIdName({ i: i, j: j })).classList.remove('safe');
     }, 3 * 1000)
 }
-
-function CheckManually(elCell) {
-    if (!gManually) {
-        initGame()
-        document.querySelector('.manuall-btn').innerText = 'Select Cells';
-        gManually = true;
-        return
-    }
-
-    if (!gMinesSum) {
-        gBoard = buildBoard()
-        setMinesNegsCount(gBoard)
-        renderBoard(gBoard)
-        document.querySelector('.manuall-btn').innerText = 'Game On...';
-        document.querySelector('.manuall-btn').disabled = true
-        gManually = false;
-    } else {
-        document.querySelector('.manuall-btn').innerText = 'Select another ' + gMinesSum;
-        elCell.innerText = '✨'
-    }
-
-}
-
-function addMineManually(i, j, elCell) {
-    if (gMinesForManually.length) {
-        for (var index = 0; index < gMinesForManually.length; index++) {
-            if (gMinesForManually[index].i === i && gMinesForManually[index].j === j) {
-                alert('Already selected')
-                return false
-            }
-        }
-    }
-    gMinesForManually.push({ i: i, j: j });
-    return true
-}
-
+//Returns a step back. Still not working well !!!!!!!
 function undo() {
     gSteps.pop();
     gStepsCount--;
     renderBoard(gSteps[gStepsCount]);
 }
-
+//Shows the mines that go out in a place that is divided by 7
 function boom() {
     initGame();
     var count = 0;
@@ -410,7 +355,7 @@ function createScore() {
     localStorage.setItem("hardScore", '➖');
     localStorage.setItem("proScore", '➖');
 }
-
+//Updates the low number of seconds of each level
 function updateScore() {
     console.log(gGame.timePassed)
     switch (gLevel.SIZE) {
@@ -437,8 +382,11 @@ function updateScore() {
             break;
     }
 }
-
-function checkIsBest() {
-
+//Resize the board
+function switchLevel(size, mines) {
+    gLevel.SIZE = size;
+    gLevel.MINES = mines;
+    gGame.isOn = false
+    initGame()
 }
 window.addEventListener("contextmenu", e => e.preventDefault());
